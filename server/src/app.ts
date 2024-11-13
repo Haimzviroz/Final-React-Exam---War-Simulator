@@ -2,12 +2,10 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectToDatabase } from "./dal/dal";
 import authrouter from "./routes/authRoutes";
-import userrouter from "./routes/userRoutes";
-import candidateouter from "./routes/candidateRoute";
 import cookieParser from "cookie-parser";
-import cors from "cors"
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import cors from "cors"
 
 
 
@@ -19,12 +17,12 @@ export const io = new Server(httpServer, { cors: { origin: '*' } });
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({
+  origin:"*"
+}))
 connectToDatabase();
 
 app.use("/auth", authrouter);
-// app.use("/users", userrouter);
-// app.use("/admin", candidateouter);
-
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
 

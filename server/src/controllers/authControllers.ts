@@ -30,5 +30,5 @@ export const login = async (req: any, res: any) => {
   }
 
   const token = generateToken(user.id, user.isIdf);
-  res.status(201).json({ message: "התחברת בהצלחה", token });
+  res.status(201).json(user);
 };
