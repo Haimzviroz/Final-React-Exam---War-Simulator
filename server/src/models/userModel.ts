@@ -4,33 +4,34 @@ import bcrypt from "bcryptjs";
 export interface IUser extends Document {
   username: string;
   password: string;
-  isAdmin: boolean
-  hasVoted: boolean;
-  votedfor: null | Types.ObjectId;
+  isIdf: boolean;
+  location: string | null;
+  name: string;
+  resources: [{ name: string; amount: number }];
   comparePassword(userPassword: string): Promise<boolean>;
 }
 
 const UserSchema = new Schema({
   username: {
     type: String,
-    required: true,
     unique: true,
   },
   password: {
     type: String,
-    required: true,
   },
-  isAdmin: {
+  isIdf: {
     type: Boolean,
 
     default: false,
   },
-  hasVoted: {
-    type: Boolean,
-    default: false,
+  location: {
+    type: String,
+    default: null,
   },
-
-  votedfor: { type: Schema.Types.ObjectId, ref: "candidate", default: null },
+  name: { type: String },
+  resources: {
+    type: [{ name: String, amount: Number }],
+  },
 });
 
 UserSchema.pre<IUser>("save", async function (next) {
@@ -47,6 +48,6 @@ UserSchema.methods.comparePassword = async function (
 };
 
 UserSchema.index({ username: 1 });
-UserSchema.index({ isAdmin: 1 });
+UserSchema.index({ isIdf: 1 });
 
 export default mongoose.model<IUser>("User", UserSchema);

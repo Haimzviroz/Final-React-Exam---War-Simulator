@@ -22,8 +22,8 @@ app.use(cookieParser());
 connectToDatabase();
 
 app.use("/auth", authrouter);
-app.use("/users", userrouter);
-app.use("/admin", candidateouter);
+// app.use("/users", userrouter);
+// app.use("/admin", candidateouter);
 
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);

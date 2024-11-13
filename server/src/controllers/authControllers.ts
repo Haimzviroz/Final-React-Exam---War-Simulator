@@ -1,20 +1,17 @@
 import { Request, Response } from "express";
 import { generateToken } from "../utils/auth";
-import { createUser, findUserByName } from "../service/dbServices";
+import { createUser, findUserByName, } from "../service/dbServices";
 
 // פונקציה להרשמה של משתמש חדש
 export const register = async (req: Request, res: Response) => {
   try {
     const currentUser = req.body;
-console.log(currentUser);
 
     const user = await createUser(currentUser);
     if (user) {
-      // אם המשתמש הוא מנהל תייצר לו טוקן
-
       res
         .status(201)
-        .json({ message: "user you registered successfully" + user });
+        .json(user._id);
     } else {
       res.status(400).json({ message: "could not add user" });
     }
@@ -32,6 +29,6 @@ export const login = async (req: any, res: any) => {
     return res.status(401).json({ message: "שם משתמש או סיסמה שגויים" });
   }
 
-  const token = generateToken(user.id, user.isAdmin);
+  const token = generateToken(user.id, user.isIdf);
   res.status(201).json({ message: "התחברת בהצלחה", token });
 };
