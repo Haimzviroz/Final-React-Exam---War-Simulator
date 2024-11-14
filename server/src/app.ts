@@ -2,38 +2,36 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectToDatabase } from "./dal/dal";
 import authrouter from "./routes/authRoutes";
+import defenceRoute from "./routes/defenceROute";
+import attackRoute from "./routes/attackRoute";
 import cookieParser from "cookie-parser";
-import { createServer } from 'http';
-import { Server } from 'socket.io';
-import cors from "cors"
-
-
-
+import { createServer } from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+import { handleSocketConnection } from "./sokets/io";
 
 dotenv.config();
 const app = express();
 const httpServer = createServer(app);
-export const io = new Server(httpServer, { cors: { origin: '*' } });
+export const io = new Server(httpServer, { cors: { origin: "*" } });
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-  origin:"*"
-}))
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 connectToDatabase();
 
 app.use("/auth", authrouter);
-io.on('connection', (socket) => {
-  console.log(`User connected: ${socket.id}`);
+app.use("/defence", defenceRoute);
+app.use("/attack", attackRoute);
 
-  socket.on('disconnect', (reason) => {
-    console.log(`User disconnected: ${socket.id}, reason: ${reason}`);
-  });
-});
-
+// io.on("connection", handleSocketConnection);
 
 const PORT = process.env.PORT;
 
 httpServer.listen(PORT, () => {
-  console.log('Server running on http://localhost:3000');
+  console.log("Server running on http://localhost:3000");
 });

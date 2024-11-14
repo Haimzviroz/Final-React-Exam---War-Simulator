@@ -16,7 +16,9 @@ const login = () => {
     dispatch(fetchlogin({ username, password }));
   };
   React.useEffect(() => {
+
     if (status === "succeeded") {
+
       user?.isIdf ? navigate("/defence") : navigate("/attack"); // ניווט לדף הראשי אחרי הצלחה
     }
   }, [status]);

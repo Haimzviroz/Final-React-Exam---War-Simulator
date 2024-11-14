@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import usersReducer from './features/userSlice';
-
+import usersReducer from "./features/userSlice";
+// import socketReducer from "./features/socketSlice";
 
 export const store = configureStore({
-    reducer: {
-        user: usersReducer,
-     
-    }
+  reducer: {
+    user: usersReducer,
+    // socketReducer,
+  },
 });
 
 // הוספת טיפוסים לstore
