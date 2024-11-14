@@ -77,7 +77,4 @@ const userSlice = createSlice({
 
 // סלקטור עם טיפוס מדויק
 export const selectUser = (state: RootState): User | null => state.user;
-
-// export const { addUser } = userSlice.actions;
-
 export default userSlice.reducer;
