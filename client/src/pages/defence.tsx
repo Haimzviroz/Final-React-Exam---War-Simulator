@@ -21,13 +21,11 @@ const Defence = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  // const handleJoinRoom = () => {
-  //   if (user?.name && user?.location)
-  //     dispatch(joinRoom({ name: user.name, location: user.location }));
-  // };
+
 
   const handleInterception = (_id: string) => {
     axios.get(`http://localhost:3000/defence/interception/${_id}`);
+
   };
 
   useEffect(() => {
@@ -46,7 +44,6 @@ const Defence = () => {
   return (
     <div>
       <h1>Organization {user?.name}</h1>
-      {/* <button onClick={handleJoinRoom}>Join Room</button> */}
       <div>
         <h2>Available Ammo</h2>
         {user &&
@@ -65,7 +62,6 @@ const Defence = () => {
             {a.status === "launched" && (
               <button onClick={() => handleInterception(a._id)}>X</button>
             )}{" "}
-            {/* launched */}
           </p>
         ))}
       </div>

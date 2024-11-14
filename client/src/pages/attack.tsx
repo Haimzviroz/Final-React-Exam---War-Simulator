@@ -4,18 +4,27 @@ import { AppDispatch } from "../store/store";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { fetchlogin } from "../store/features/userSlice";
 
 const Defence = () => {
   const { user, status, error } = useSelector((state: RootState) => state.user);
   const [currentUser, setcurrentUser] = useState(user);
   const [location, setLocation] = useState("");
   const id = user?._id;
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleClick = (rocketName: string) => {
     axios.post(`http://localhost:3000/attack/attack/${id}`, {
       name: rocketName,
       location: location,
+
     });
+
+    if (user) {
+        dispatch(fetchlogin({ username: user.username, password : user.password }));
+        setcurrentUser(user);
+    }
+
   };
   const handleLocationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setLocation(e.currentTarget.value);

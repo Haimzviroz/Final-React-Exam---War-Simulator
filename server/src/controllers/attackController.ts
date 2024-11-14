@@ -1,5 +1,7 @@
 import { request, Request, Response } from "express";
 import Attack from "../models/attackModel";
+import USer from "../models/userModel";
+
 import {timeToHit as calculate} from "../utils/timeToHit";
 
 
@@ -17,6 +19,19 @@ export const sendAttack = async (request: Request, response: Response) => {
       console.log(newAttack);
       
       const attack = await Attack.create(newAttack);
+
+      const user = await USer.findByIdAndUpdate(
+        id,
+        {
+          $inc: { "resources.$[elem].amount": -1 }
+        },
+        {
+          arrayFilters: [{ "elem.name": name }],
+          new: true
+        }
+      );
+      
+
       response.json(attack);
     } catch (error) {
       console.error(error);
