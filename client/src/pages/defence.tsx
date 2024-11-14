@@ -1,9 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { AppDispatch } from "../store/store";
-import { useDispatch } from "react-redux";
-// import { joinRoom } from "../store/features/socketSlice";
 import { useEffect, useState } from "react";
+import styles from "./defence.module.css";
 import axios from "axios";
 interface attackType {
   name: string;
@@ -15,17 +13,12 @@ interface attackType {
 }
 
 const Defence = () => {
-  const { user, status, error } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector((state: RootState) => state.user);
   const [attacks, setAttacks] = useState([]);
   const location = user?.location;
 
-  const dispatch = useDispatch<AppDispatch>();
-
-
-
   const handleInterception = (_id: string) => {
     axios.get(`http://localhost:3000/defence/interception/${_id}`);
-
   };
 
   useEffect(() => {
@@ -42,7 +35,7 @@ const Defence = () => {
   }, []);
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Organization {user?.name}</h1>
       <div>
         <h2>Available Ammo</h2>
@@ -55,15 +48,21 @@ const Defence = () => {
       </div>
       <div>
         <h2>Attacks</h2>
-        <p>rocket | status | time</p>
-        {attacks.map((a: attackType) => (
-          <p key={a._id}>
-            {a.name} | {a.status} |{a.timeToHit}
-            {a.status === "launched" && (
-              <button onClick={() => handleInterception(a._id)}>X</button>
-            )}{" "}
-          </p>
-        ))}
+        <table className={styles.table}>
+          <tr>
+            <th>Rocket</th>
+            <th>Time to Hit</th>
+            <th>status</th>
+          </tr>
+
+          {attacks.map((a: attackType) => (
+            <tr key={a._id}>
+              <td>{a.name}</td>
+              <td>{a.timeToHit}</td>
+              <td >{a.status} <button onClick={() => handleInterception(a._id)}>x</button></td>
+            </tr>
+          ))}
+        </table>
       </div>
     </div>
   );

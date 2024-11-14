@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
+import styles from "./Register.module.css";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -36,19 +37,19 @@ const Register = () => {
     }
   }, [status]);
   return (
-    <div>
+    <div className={styles.container} >
       <form onSubmit={handleForm}>
-        <input
+        <input className={styles.input}
           type="text"
           placeholder="Please insert username"
           onChange={(e) => setUserName(e.currentTarget.value)}
         />
-        <input
+        <input  className={styles.input}
           type="password"
           placeholder="Please insert password here"
           onChange={(e) => setPassword(e.currentTarget.value)}
         />
-        <select onChange={handleSelect}>
+        <select onChange={handleSelect} className={styles.select}>
           <option value="someOption">-</option>
           <option value="IDF">IDF</option>
           <option value="Hezbollah">Hezbollah</option>
@@ -57,21 +58,21 @@ const Register = () => {
           <option value="Houthis">Houthis</option>
         </select>
         {isIdf && (
-          <select onChange={handleLocationChange}>
+          <select onChange={handleLocationChange} className={styles.select}>
             <option value="North">North</option>
             <option value="South">South</option>
             <option value="Center">Center</option>
             <option value="West Bank">West Bank</option>
           </select>
         )}
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit"  className={styles.submit}/>
       </form>
       <div>
         {status === "loading" && <p>Loading...</p>}
         {status === "succeeded" && user && (
           <p>User registered successfully! {`${isIdf} ${location} ${name}`}</p>
         )}
-        {status === "failed" && error && <p>Registration failed: {error}</p>}
+        {status === "failed" && error && <p>Registration failed: </p>}
       </div>
     </div>
   );

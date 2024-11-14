@@ -2,12 +2,12 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { AppDispatch } from "../store/store";
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { fetchlogin } from "../store/features/userSlice";
 
 const Defence = () => {
-  const { user, status, error } = useSelector((state: RootState) => state.user);
+  const { user} = useSelector((state: RootState) => state.user);
   const [currentUser, setcurrentUser] = useState(user);
   const [location, setLocation] = useState("");
   const id = user?._id;

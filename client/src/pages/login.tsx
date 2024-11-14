@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
+import styles from "./login.module.css";
 
 const login = () => {
   const [username, setUserName] = useState("");
@@ -24,23 +25,25 @@ const login = () => {
   }, [status]);
 
   return (
-    <div>
+    <div className={styles.container}>
+      <p>dont registerd yet</p>
+      <button onClick={() => navigate("/register")}>register</button>
       <form onSubmit={handleForm}>
-        <input
+        <input className={styles.input}
           type="text"
           placeholder="please insert userName"
           onChange={(e) => {
             setUserName(e.currentTarget.value);
           }}
         />
-        <input
+        <input className={styles.input}
           type="password"
           placeholder="please insert password here"
           onChange={(e) => {
             setpassword(e.currentTarget.value);
           }}
         />
-        <input type="submit" placeholder="submit" />
+        <input type="submit" placeholder="submit"  className={styles.submit}/>
       </form>
       <div>
         {user ? (
